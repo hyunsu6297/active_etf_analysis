@@ -1,6 +1,16 @@
 name: Update ETF dashboard
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/update-dashboard.yml"
+      - "build_etf_dashboard.py"
+      - "etf_holdings_pipeline.py"
+      - "update_daily_dashboard.py"
+      - "requirements.txt"
+      - "종목리스트.xlsx"
+      - "data/parquet/**"
   workflow_dispatch:
     inputs:
       target_date:
@@ -57,7 +67,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/raw data/parquet etf_active_weight_dashboard.html index.html
+          git add data etf_active_weight_dashboard.html index.html
           if git diff --cached --quiet; then
             echo "No data or dashboard changes to commit."
           else

@@ -10,7 +10,6 @@ on:
       - "update_daily_dashboard.py"
       - "requirements.txt"
       - "종목리스트.xlsx"
-      - "data/parquet/**"
   workflow_dispatch:
     inputs:
       target_date:
@@ -39,6 +38,9 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -72,6 +74,7 @@ jobs:
             echo "No data or dashboard changes to commit."
           else
             git commit -m "Update ETF dashboard data"
+            git pull --rebase origin main
             git push
           fi
 
